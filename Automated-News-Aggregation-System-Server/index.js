@@ -28,6 +28,17 @@ async function run() {
     const NewsDB= client.db("NewsDB");
 const newsCollection = NewsDB.collection("News");
 
+app.get("/allnews",async(req,res)=>{
+     const cursor = newsCollection.find({});
+  const allnews = await cursor.toArray();
+
+ const allArticles = allnews.flatMap(doc => doc.results);
+res.send(allArticles);
+
+//   res.send(allnews.results[0])
+})
+ 
+
     // Send a ping to confirm a successful connection
     await client.db("admin").command({ ping: 1 });
     console.log("Pinged your deployment. You successfully connected to MongoDB!");
